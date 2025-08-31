@@ -1,0 +1,219 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>JavaScript 数组所有方法完整参考</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 1000px;
+            margin: 0 auto;
+            padding: 20px;
+            line-height: 1.6;
+        }
+        h1, h2, h3 {
+            color: #333;
+        }
+        .console {
+            background-color: #000;
+            color: #00ff00;
+            padding: 15px;
+            border-radius: 5px;
+            margin: 20px 0;
+            font-family: monospace;
+            max-height: 400px;
+            overflow-y: auto;
+        }
+        .btn {
+            display: inline-block;
+            padding: 10px 15px;
+            background-color: #007bff;
+            color: white;
+            text-decoration: none;
+            border-radius: 4px;
+            cursor: pointer;
+            margin: 5px;
+            border: none;
+        }
+        .btn:hover {
+            background-color: #0056b3;
+        }
+        .section {
+            margin: 20px 0;
+            padding: 15px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+        }
+        pre {
+            background-color: #f5f5f5;
+            padding: 10px;
+            border-radius: 5px;
+            overflow-x: auto;
+        }
+        code {
+            background-color: #eee;
+            padding: 2px 4px;
+            border-radius: 3px;
+        }
+    </style>
+</head>
+<body>
+    <h1>JavaScript 数组所有方法完整参考</h1>
+    
+    <div>
+        <button class="btn" onclick="runArrayMethods()">运行完整数组方法示例</button>
+        <button class="btn" onclick="clearConsole()">清空控制台</button>
+    </div>
+    
+    <div class="console" id="console">
+        点击上面的按钮运行数组方法示例<br>
+        输出将显示在这里（请打开浏览器开发者工具查看完整输出）
+    </div>
+    
+    <div class="section">
+        <h2>说明</h2>
+        <p>本示例展示了 JavaScript 中数组的所有原生方法，包括：</p>
+        <ul>
+            <li>创建数组的方法</li>
+            <li>访问数组元素的方法</li>
+            <li>添加/删除元素的方法</li>
+            <li>数组遍历方法</li>
+            <li>数组搜索方法</li>
+            <li>数组转换方法</li>
+            <li>数组排序和重新排列方法</li>
+            <li>数组复制和填充方法</li>
+            <li>迭代器方法</li>
+            <li>其他实用方法</li>
+        </ul>
+        <p>点击按钮后，将在上方控制台中显示所有方法的运行结果。</p>
+    </div>
+    
+    <div class="section">
+        <h2>数组方法分类</h2>
+        
+        <h3>创建数组</h3>
+        <pre><code>
+// 数组字面量
+const arr1 = [1, 2, 3];
+
+// Array构造函数
+const arr2 = new Array(1, 2, 3);
+const arr3 = new Array(3); // 创建长度为3的空数组
+
+// Array.of()
+const arr4 = Array.of(1, 2, 3);
+
+// Array.from()
+const arr5 = Array.from('hello');
+const arr6 = Array.from([1, 2, 3], x => x * 2);
+        </code></pre>
+        
+        <h3>添加/删除元素</h3>
+        <pre><code>
+const arr = ['a', 'b', 'c'];
+
+// 末尾操作
+arr.push('d');  // 添加到末尾
+arr.pop();      // 删除末尾元素
+
+// 开头操作
+arr.unshift('x'); // 添加到开头
+arr.shift();      // 删除开头元素
+
+// 任意位置操作
+arr.splice(1, 1);        // 从索引1开始删除1个元素
+arr.splice(1, 0, 'y');   // 在索引1处插入'y'
+arr.splice(1, 1, 'z');   // 替换索引1处的元素为'z'
+        </code></pre>
+        
+        <h3>数组遍历</h3>
+        <pre><code>
+const arr = [1, 2, 3, 4, 5];
+
+// 基本遍历
+arr.forEach((item, index) => console.log(index, item));
+
+// 映射
+const doubled = arr.map(x => x * 2);
+
+// 过滤
+const evens = arr.filter(x => x % 2 === 0);
+
+// 归约
+const sum = arr.reduce((acc, curr) => acc + curr, 0);
+
+// 查找
+const found = arr.find(x => x > 3);
+const foundIndex = arr.findIndex(x => x > 3);
+        </code></pre>
+    </div>
+
+    <script>
+        // 用于在页面上显示控制台输出
+        (function() {
+            const consoleDiv = document.getElementById('console');
+            
+            // 保存原始的 console 方法
+            const originalLog = console.log;
+            const originalWarn = console.warn;
+            const originalError = console.error;
+            
+            // 重写 console.log
+            console.log = function(...args) {
+                originalLog.apply(console, args);
+                appendToConsole('log', args);
+            };
+            
+            // 重写 console.warn
+            console.warn = function(...args) {
+                originalWarn.apply(console, args);
+                appendToConsole('warn', args);
+            };
+            
+            // 重写 console.error
+            console.error = function(...args) {
+                originalError.apply(console, args);
+                appendToConsole('error', args);
+            };
+            
+            function appendToConsole(type, args) {
+                const line = document.createElement('div');
+                line.className = type;
+                
+                // 简单的参数格式化
+                const formattedArgs = args.map(arg => {
+                    if (typeof arg === 'object' && arg !== null) {
+                        try {
+                            return JSON.stringify(arg);
+                        } catch (e) {
+                            return String(arg);
+                        }
+                    }
+                    return String(arg);
+                }).join(' ');
+                
+                line.textContent = `${formattedArgs}`;
+                consoleDiv.appendChild(line);
+                consoleDiv.scrollTop = consoleDiv.scrollHeight;
+            }
+        })();
+        
+        function clearConsole() {
+            document.getElementById('console').innerHTML = '';
+        }
+        
+        function runArrayMethods() {
+            clearConsole();
+            
+            // 动态加载数组方法示例文件
+            const script = document.createElement('script');
+            script.src = 'array-methods-complete.js';
+            script.onload = function() {
+                console.log('数组方法示例执行完成');
+            };
+            document.head.appendChild(script);
+        }
+    </script>
+</body>
+</html>
